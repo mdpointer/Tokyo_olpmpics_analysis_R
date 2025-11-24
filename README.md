@@ -1,4 +1,4 @@
-# Tokyo_olpmpics_analysis_R
+# Tokyo_olympics_analysis_R
 An analysis of data from the 2021 Tokyo olympics conducted in R v4.3.3.Data obtained from https://github.com/MainakRepositor/Datasets/tree/master/Tokyo-Olympics
 View the full report with visualisations in the olympics_report_markdown.html file.
 
