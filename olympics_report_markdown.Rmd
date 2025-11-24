@@ -1,0 +1,115 @@
+---
+title: "Tokyo Olympics Report"
+author: "M D Pointer"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: '2'
+    df_print: paged
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    theme: united
+---
+
+```{r olympics-full-report, echo=TRUE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(tidyr)
+library(DHARMa)
+library(randomForest)
+library(Metrics)
+library(MASS)
+
+# Load cleaned data and analysis scripts
+source("/Users/mdp/Google Drive/WORK/R/olympics_data/olympics_load_and_clean_data.R", local = F)
+source("/Users/mdp/Google Drive/WORK/R/olympics_data/olympics_explore_athletes_and_coaches.R", local=F)
+source("/Users/mdp/Google Drive/WORK/R/olympics_data/olympics_explore_gender_balance.R", local=F)
+source("/Users/mdp/Google Drive/WORK/R/olympics_data/olympics_explore_medals.R", local=F)
+source("/Users/mdp/Google Drive/WORK/R/olympics_data/olympics_model_medal_haul.R", local=F)
+
+# ------------------------------------------------------------
+# ATHLETES AND COACHES
+# ------------------------------------------------------------
+cat("## Athletes and Coaches\n\n")
+
+cat("### Athletes by Sport\n")
+cat("Athletics, Swimming, and Football have the largest number of participants, reflecting both popularity and number of events.\n\n")
+head(athletes_by_sport)
+plot_athletes_per_sport
+
+cat("\n### Athletes by Country\n")
+cat("The largest delegations come from the USA, Japan, Australia, and China, indicating that more resource-rich countries send larger teams.\n\n")
+head(athletes_by_country)
+plot_athletes_per_country
+
+cat("\n### Sports Diversity per Country\n")
+cat("Countries like Japan, USA, and Australia compete across many sports, showing broad investment in Olympic competition.\n\n")
+head(sports_diversity)
+plot_sports_per_country
+
+cat("\n### Coach-to-Athlete Ratio\n")
+cat("Smaller delegations (e.g., San Marino, Cambodia) have high coach-to-athlete ratios, while larger teams have lower ratios.\n\n")
+head(coach_ratio)
+plot_coach_to_athlete_ratio
+
+# ------------------------------------------------------------
+# GENDER BALANCE
+# ------------------------------------------------------------
+cat("\n## Gender Balance\n\n")
+
+cat("### Gender Balance by Sport\n")
+cat("Sports like Artistic Swimming are exclusively female, while Athletics and Basketball are near-even. Gender balance is important to assess inclusivity.\n\n")
+head(gender_balance)
+plot_gender_balance_per_sport
+
+cat("\n### Country-Level Gender Balance\n")
+cat("Some countries have balanced delegations, while others are male-dominated, reflecting cultural or policy differences.\n\n")
+head(country_gender_filtered)
+plot_female_prop_by_country
+
+# ------------------------------------------------------------
+# MEDAL ANALYSIS
+# ------------------------------------------------------------
+cat("\n## Medal Analysis: Total Medals, Gold Medals, and Weighted Scores\n\n")
+cat("Weighted scores account for gold > silver > bronze to highlight both quantity and quality of medals.\n\n")
+
+cat("### Top Countries by Weighted Medal Score\n")
+head(tokyo_ranked, 6)
+
+cat("\n### Comparison Table: Total Medals vs Gold vs Weighted Score\n")
+head(tokyo_comparison, 20)
+
+cat("\n### Plot: Combined Medal Metrics\n")
+plot_combined_metrics
+
+# ------------------------------------------------------------
+# MODELLING RESULTS
+# ------------------------------------------------------------
+cat("\n## Modelling Results\n\n")
+
+# Negative Binomial
+cat("### Negative Binomial Regression\n")
+cat("The model predicts total medals using athletes, number of sports, and average female ratio. Athletes and sports are significant predictors; gender proportion is not.\n\n")
+summary(nb_model)
+cat("\n### Diagnostic Plot\n")
+plot_neg_binom_model
+
+# Random Forest
+cat("\n### Random Forest Model\n")
+cat("Captures nonlinear relationships and interactions. Test set performance: RMSE ~12.6, R² ~0.80, indicating strong predictive ability.\n\n")
+print(rf_model)
+
+cat("\n### Test Performance\n")
+cat(paste0("RMSE (test set): ", round(rmse_test, 3), "\n"))
+cat(paste0("R² (test set): ", round(r2_test, 3), "\n\n"))
+
+cat("### Variable Importance\n")
+cat("Athletes and number of sports are the most important predictors of medal counts.\n")
+varImpPlot(rf_model, type = 1)   # Mean decrease in accuracy
+varImpPlot(rf_model, type = 2)   # Mean decrease in node impurity
+
+cat("\n### Random Forest Diagnostic Plot\n")
+plot_random_forrest_model
