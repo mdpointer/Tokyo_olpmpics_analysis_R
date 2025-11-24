@@ -51,7 +51,7 @@ Across both modelling approaches, the evidence clearly shows that delegation sca
 
 
 ## 1. Exploring Athletes and Coaches
-# 1.1 Athletes by Sport
+### 1.1 Athletes by Sport
 
 We first examined the distribution of athletes across different Olympic sports. The six sports with the largest participation were:
 
@@ -69,7 +69,7 @@ Judo: 373 athletes
 
 These results highlight that Athletics dominates in athlete numbers, followed by Swimming and team sports like Football and Hockey. The distribution reflects the popularity and number of events within each sport. A bar plot of athletes per sport further illustrates the steep drop-off after the largest sports, emphasizing that a small number of sports account for a large share of participants.
 
-# 1.2 Athletes by Country
+### 1.2 Athletes by Country
 
 Next, we looked at the number of athletes sent by each country. The countries with the largest delegations are:
 
@@ -87,7 +87,7 @@ France: 377 athletes
 
 A bar plot of the top 30 countries shows that these six countries are clear leaders in team size, reflecting both the resources and the breadth of their Olympic programs. Most other countries send considerably smaller delegations.
 
-# 1.3. Sports Diversity by Country
+### 1.3. Sports Diversity by Country
 
 We also measured sports diversity, defined as the number of different sports in which a country participates. The top countries by this metric are:
 
@@ -105,7 +105,7 @@ Canada: 40 sports, 368 athletes
 
 The data indicate that countries with large delegations also tend to compete across more sports. A corresponding plot of sports diversity shows that participation breadth often aligns with total delegation size, highlighting comprehensive Olympic programs.
 
-# 1.4. Coach-to-Athlete Ratios
+### 1.4. Coach-to-Athlete Ratios
 
 Finally, we examined the ratio of coaches to athletes for each country. Some notable examples include:
 
@@ -130,7 +130,7 @@ These ratios reveal that smaller delegations tend to invest more heavily in coac
 
 We examined the distribution of athletes by gender across different sports and countries to understand patterns of female participation at the Tokyo Olympics.
 
-# 2.1. Gender balance per sport
+### 2.1. Gender balance per sport
 The gender_balance dataset shows the number of female and male athletes in each sport, along with the total and the female ratio (f_ratio). A few highlights:
 
 Sport	Female	Male	Total	Female Ratio
@@ -145,7 +145,7 @@ Some sports, such as Artistic Swimming, are exclusively female, while others lik
 
 The plot_gender_balance_per_sport visualizes the female ratio for all sports, highlighting which sports are male-dominated, female-dominated, or balanced.
 
-# 2.2 Gender balance per country
+### 2.2 Gender balance per country
 We aggregated athletes by country and computed the average female ratio (avg_female_ratio) for each delegation:
 
 Country	Athletes	Avg. Female Ratio
@@ -234,7 +234,7 @@ Average female ratio — mean proportion of female participation across sports p
 Results from both approaches tell a consistent story about what drives medal hauls.
 
 
-# 4.1 Negative Binomial Regression
+### 4.1 Negative Binomial Regression
 
 The Negative Binomial model treats total medals as an over-dispersed count outcome. The model converged successfully with a dispersion parameter θ ≈ 5.16, confirming that over-dispersion was present but manageable.
 
@@ -262,7 +262,7 @@ AIC = 505.6, used for model comparison.
 Diagnostic plots (DHARMa) indicated that this model handled over-dispersion better than the Poisson model and showed no strong residual structure.
 
 
-# 4.2 Random Forest Model
+### 4.2 Random Forest Model
 
 To allow for non-linear patterns and complex interactions, I trained a Random Forest model using a 70/30 train–test split.
 
